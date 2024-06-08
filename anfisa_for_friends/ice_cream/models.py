@@ -72,3 +72,4 @@ class IceCream(PublishedModel):
     class Meta:
         verbose_name = 'Мороженое'
         verbose_name_plural = 'Мороженое'
+        ordering = ('output_order',)
