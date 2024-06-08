@@ -17,8 +17,8 @@ class Category(PublishedModel):
 
 
 class Topping(PublishedModel):
-    title = models.CharField(max_length=256)
-    slug = models.SlugField(max_length=64, unique=True)
+    title = models.CharField('Название', max_length=256)
+    slug = models.SlugField('Слаг', max_length=64, unique=True)
 
     class Meta:
         verbose_name = 'Топпинг'
@@ -26,7 +26,11 @@ class Topping(PublishedModel):
 
 
 class Wrapper(PublishedModel):
-    title = models.CharField(max_length=256)
+    title = models.CharField(
+        'Название',
+        max_length=256,
+        help_text='Уникальное название обертки, не более 256 символов'
+    )
 
     class Meta:
         verbose_name = 'Обертка'
@@ -34,7 +38,7 @@ class Wrapper(PublishedModel):
 
 
 class IceCream(PublishedModel):
-    title = models.CharField(max_length=256)
+    title = models.CharField('Название', max_length=256)
     description = models.TextField('Описание')
     wrapper = models.OneToOneField(
         Wrapper,
@@ -50,8 +54,20 @@ class IceCream(PublishedModel):
         related_name='ice_creams',
         verbose_name='Категория',
     )
-    toppings = models.ManyToManyField(Topping)
-    is_on_main = models.BooleanField(default=False)
+    toppings = models.ManyToManyField(
+        Topping,
+        verbose_name='Топпинги'
+        )
+    is_on_main = models.BooleanField(default=False, verbose_name='На главную')
+    output_order = models.PositiveSmallIntegerField(
+        default=100,
+        verbose_name='Порядок отображения'
+    )
+    price = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        verbose_name='Цена'
+    )
 
     class Meta:
         verbose_name = 'Мороженое'
